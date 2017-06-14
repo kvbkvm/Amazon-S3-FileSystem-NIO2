@@ -34,20 +34,20 @@ public class S3Path implements Path {
     /**
      * S3FileStore which represents the Bucket this path resides in.
      */
-    private final S3FileStore fileStore;
+    protected S3FileStore fileStore;
     /**
      * Parts without bucket name.
      */
-    private final List<String> parts;
+    protected List<String> parts;
     /**
      * actual filesystem
      */
-    private S3FileSystem fileSystem;
+    protected S3FileSystem fileSystem;
 
     /**
      * S3BasicFileAttributes cache
      */
-    private S3BasicFileAttributes fileAttributes;
+    protected S3BasicFileAttributes fileAttributes;
 
     /**
      * path must be a string of the form "/{bucket}", "/{bucket}/{key}" or just
@@ -101,13 +101,13 @@ public class S3Path implements Path {
         this.fileSystem = fileSystem;
     }
 
-    S3Path(S3FileSystem fileSystem, S3FileStore fileStore, Iterable<String> keys) {
+    protected S3Path(S3FileSystem fileSystem, S3FileStore fileStore, Iterable<String> keys) {
         this.fileStore = fileStore;
         this.parts = KeyParts.parse(keys);
         this.fileSystem = fileSystem;
     }
 
-    S3Path(S3FileSystem fileSystem, S3FileStore fileStore, String... keys) {
+    protected S3Path(S3FileSystem fileSystem, S3FileStore fileStore, String... keys) {
         this.fileStore = fileStore;
         this.parts = KeyParts.parse(keys);
         this.fileSystem = fileSystem;
@@ -437,7 +437,7 @@ public class S3Path implements Path {
 
     // ~ helpers methods
 
-    private static Function<String, String> strip(final String... strs) {
+    protected static Function<String, String> strip(final String... strs) {
         return new Function<String, String>() {
             @Override
             public String apply(String input) {
@@ -450,7 +450,7 @@ public class S3Path implements Path {
         };
     }
 
-    private static Predicate<String> notEmpty() {
+    protected static Predicate<String> notEmpty() {
         return new Predicate<String>() {
             @Override
             public boolean apply(@Nullable String input) {
